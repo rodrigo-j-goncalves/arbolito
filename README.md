@@ -1,14 +1,20 @@
 # Arbolito
 
-Generates an interactive, animated mind map HTML file from a simple CSV spreadsheet.
-The output is a self-contained HTML file suitable for embedding in Quarto RevealJS slides.
+**See it live here**: [arbolito](https://rodrigo-j-goncalves.github.io/serve/arbolito/mindmap.html)
+
+- Generate an interactive, animated mind map from a simple CSV spreadsheet.
+- The output is a self-contained HTML file suitable for embedding in Quarto RevealJS slides (or in any other HTML-based context).
+
+---
+
+<img src="assets/README/image-1.png" alt="alt text" width="70%">
 
 ---
 
 ## Files
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `arbolito.py` | Python script that reads the CSV and writes the HTML |
 | `mindmap.csv` | Your content (edit this) |
 | `mindmap.html` | Generated output (do not edit directly) |
@@ -32,79 +38,114 @@ This reads `mindmap.csv` and writes `mindmap.html` in the same directory.
 
 ### Options
 
-```bash
-python arbolito.py --input my_topic.csv --output my_topic.html
+- You can specify `input` and `output` files:
 
-# Also save the intermediate JSON tree for inspection:
-python arbolito.py --input my_topic.csv --output my_topic.html --save-json tree.json
-```
+    ```bash
+    python arbolito.py --input my_topic.csv --output my_topic.html
+    ```
+
+- You can also save the intermediate JSON tree for inspection:
+
+    ```bash
+    python arbolito.py --input my_topic.csv --output my_topic.html --save-json tree.json
+    ```
 
 ---
 
 ## CSV Format
 
-Open or create your CSV in any spreadsheet application (LibreOffice Calc, etc.) or a plain text editor.
+Open or create your CSV in any spreadsheet application (e.g. LibreOffice Calc, MS Excel, etc.) or a plain text editor.
 
-### Columns
+### How to organize your CSV file
 
-- `L1`, `L2`, `L3`, ... — Hierarchy levels. Add as many as needed. Each node belongs to the level column where its name is written; all other level columns on that row are left empty.
-- `collapsed` — Whether the node starts collapsed. Write `false` to start expanded. Leave blank to use the default (collapsed).
+#### META Rows
+
+You can add `META` rows to include information (eg Title, Author, University/Company, Date, etc.). This information will be shown on the mindmap. `META` rows are optional, and there is no maximum (but it won't look nice if you add too much text!).
+
+Here I show an example where I include a `title`, `author`, `company`, and `date`. These names are just for your CSV file, and are not shown on the mindmap. The mindmap shows the values only (third column)
+
+<img src="assets/README/image-3.png" alt="alt text" width="50%">
+
+And it looks like this, on the top-left corner of the mindmap:
+
+<img src="assets/README/image-4.png" alt="alt text" width="50%">
+
+#### Columns
+
+The columns are organized as 'Levels'. A level is a box (node). `L1` is the 'grandparent' or first level (in the simple example: 'Sports superstars'), `L2` is the 1st 'parent' (in the example: the name of the sport), `L3` is the 'child' (in the example: whether the player won a WC or not), etc.
+
+<img src="assets/README/image-5.png" alt="alt text" width="60%">
+
+As you can see, `L1`, `L2`, `L3`, ... are hierarchy levels. **You can add as many as needed**. Each node belongs to the level column where its name is written; all other level columns on that row are left empty.
+
+**Visualization options**
+
+Two more columns define how the mindmap is shown:
+
+- `collapsed` — Whether the node is collapsed in the initial view. Write `false` to start expanded. Leave blank to use the default (collapsed).
 - `fontSize` — Font size in pixels for this node's label. Leave blank to use the default (13px).
 
-### Example — Ecology
+### A simple, full example
+
+This CSV structure:
+
+<img src="assets/README/image-6.png" alt="alt text" width="60%">
+
+Produces a tree like this:
+
+```text
+    Sports superstars
+      ├── Fútbol
+      │   ├── Won a WC
+      │   │   ├── Leo Messi
+      │   │   ├── Pelé
+      │   │   └── Maradona
+      │   └── Did not win a WC
+      │       ├── Cristiano Ronaldo
+      │       ├── Paolo Maldini
+      │       └── Johan Cruyff
+      └── Basket
+          ├── Won a WC
+          │   ├── Shaquille O'Neal
+          │   ├── Pau Gasol
+          │   └── Kevin Durant
+          └── Did not win a WC
+              ├── Michael Jordan
+              ├── LeBron James
+              └── Luka Dončić
 
 ```
-L1,      L2,           L3,                          collapsed, fontSize
-Ecology, ,             ,                            false,     15
-,        Population,   ,                            true,
-,        ,             Growth models,               ,
-,        ,             Demography,                  ,
-,        Communities,  ,                            true,
-,        ,             Ecological interactions,     ,
-,        ,             Abundance and distribution,  ,
-,        Systems,      ,                            true,
-```
 
-This produces a tree like:
+which results in this mindmap:
 
-```
-Ecology
-├── Population
-│   ├── Growth models
-│   └── Demography
-├── Communities
-│   ├── Ecological interactions
-│   └── Abundance and distribution
-└── Systems
-```
+**Initial view**
+
+<img src="assets/README/image-7.png" alt="alt text" width="60%">
+
+
+**Fully expanded**
+
+<img src="assets/README/image-8.png" alt="alt text" width="60%">
+
+
+### **See it live here!**
+- [This is the CSV file](https://rodrigo-j-goncalves.github.io/serve/arbolito/mindmap_simpleExample.csv)
+- [See the rendered mindmap](https://rodrigo-j-goncalves.github.io/serve/arbolito/mindmap_simpleExample.html)
 
 ### Rules
 
 - The root node must be in the `L1` column.
 - A node at level `Ln` must appear after a node at level `L(n-1)` — you cannot skip levels.
 - Blank rows are ignored.
-- `collapsed: false` means the node's children are visible on load. Any other value or blank means collapsed.
-- `fontSize` affects only the label of that specific node. Child nodes are not affected.
-
-### Metadata (optional)
-
-Rows before the header starting with `META` are displayed in a bar below the toolbar:
-
-```
-META, title,      My Topic
-META, author,     Jane Smith
-META, university, University of Example
-META, date,       2026
-L1, L2, collapsed, fontSize
-...
-```
+- `collapsed` = false means the node's children are visible on load. Any other value or blank means collapsed.
+- `fontSize` value affects only the label of that specific node. Child nodes are not affected.
 
 ---
 
 ## Interacting with the Mind Map
 
 | Action | Effect |
-|---|---|
+| --- | --- |
 | Click a node | Expand or collapse its children |
 | Expand / collapse | Viewport auto-fits to show all visible nodes |
 | Drag | Pan the view (disables auto-fit) |
@@ -125,3 +166,8 @@ Save `mindmap.html` next to your `.qmd` file, then insert a slide like this:
 ```
 
 You can adjust the `height` value to fit your slide dimensions.
+
+## Licence & Credits
+
+- MIT Rodrigo J. Gonçalves
+- I _claudeveloped_ this :p

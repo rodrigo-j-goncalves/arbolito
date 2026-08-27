@@ -1,23 +1,32 @@
-"META","title","Ecología de poblaciones y comunidades",,,,
-"META","author","Rodrigo J. Gonçalves",,,,
-"META","university","Universidad de Granada",,,,
-"META","date",2026,,,,
-"L1","L2","L3","L4","L5","collapsed","fontSize"
-"Ecology",,,,,"false",15
-,"Population",,,,"true",15
-,,"Growth models",,,,15
-,,,"Logistic",,,15
-,,,"Exponential",,,15
-,,,,"Continuous (r)",,15
-,,,,"Discreto (lambda)",,15
-,,"Demography",,,,15
-,"Communities",,,,"true",15
-,,"Ecological interactions",,,,15
-,,"Abundance and distribution",,,,15
-,,,,,,15
-,,,,,,15
-,,"Sub-communities",,,,15
-,,,"S-C 01",,,15
-,,,"S-C 02\nanother!\nand another!\n just another",,,15
-,"Systems",,,,"true",15
-,,"next semester :) ",,,,15
+"META","title","Parts of a computer",,,
+"META","author","Juan Pérez",,,
+"META","institution","University of the World",,,
+"META","date",2026,,,
+"L1","L2","L3","L4","collapsed","fontSize"
+"Animals",,,,"false",16
+,"Vertebrates",,,,14
+,,"Mammals",,,
+,,,"Primates",,
+,,,"Carnivores",,
+,,,"Cetaceans",,
+,,"Birds",,,
+,,,"Raptors",,
+,,,"Songbirds",,
+,,,"Ratites",,
+,,"Ectotherms",,,
+,,,"Fish",,
+,,,"Amphibians",,
+,,,"Reptiles",,
+,"Invertebrates",,,,14
+,,"Arthropods",,,
+,,,"Insects",,
+,,,"Arachnids",,
+,,,"Crustaceans",,
+,,"Molluscs",,,
+,,,"Bivalves",,
+,,,"Gastropods",,
+,,,"Cephalopods",,
+,,"Echinoderms",,,
+,,,"Sea stars",,
+,,,"Sea urchins",,
+,,,"Sea cucumbers",,
