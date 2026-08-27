@@ -1,6 +1,6 @@
 # Arbolito
 
-**See it live here**: [arbolito](https://rodrigo-j-goncalves.github.io/serve/arbolito/mindmap.html)
+**See it live here**: [arbolito](https://rodrigo-j-goncalves.github.io/serve/arbolito/arbolito_mindmap.html)
 
 - Generate an interactive, animated mind map from a simple CSV spreadsheet.
 - The output is a self-contained HTML file suitable for embedding in Quarto RevealJS slides (or in any other HTML-based context).
@@ -129,8 +129,8 @@ which results in this mindmap:
 
 
 ### **See it live here!**
-- [This is the CSV file](https://rodrigo-j-goncalves.github.io/serve/arbolito/mindmap_simpleExample.csv)
-- [See the rendered mindmap](https://rodrigo-j-goncalves.github.io/serve/arbolito/mindmap_simpleExample.html)
+- [This is the CSV file](https://rodrigo-j-goncalves.github.io/serve/arbolito/arbolito_mindmap_simpleExample.csv)
+- [See the rendered mindmap](https://rodrigo-j-goncalves.github.io/serve/arbolito/arbolito_mindmap_simpleExample.html)
 
 ### Rules
 
