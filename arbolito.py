@@ -365,8 +365,10 @@ function applyLayout(root, W, H) {
     root.each(d => { d.px = d.x; d.py = d.y; });
 
   } else {
-    // Horizontal
-    const xStep = 200;
+    // Horizontal: depth step = widest node + fixed gap, so links never go backwards
+    let maxNodeW = 0;
+    root.each(d => { maxNodeW = Math.max(maxNodeW, nw(d.data.name, d.data.fontSize)); });
+    const xStep = maxNodeW + 120;
     d3.tree()
       .nodeSize([1, xStep])
       .separation((a, b) => {
@@ -414,8 +416,9 @@ const zoomBeh = d3.zoom()
   .scaleExtent([0.1, 5])
   .on('zoom', e => {
     zoomG.attr('transform', e.transform);
-    // sourceEvent is non-null only for genuine user interactions (wheel, drag)
-    if (e.sourceEvent) autoFit = false;
+    // Disable auto-fit only on genuine pan/zoom gestures, not programmatic transforms
+    const t = e.sourceEvent && e.sourceEvent.type;
+    if (t === 'wheel' || t === 'mousemove' || t === 'touchmove') autoFit = false;
   });
 svgEl.call(zoomBeh).on('dblclick.zoom', null);
 
@@ -449,8 +452,7 @@ function fitToView(root, W, H, dur) {
   const bh = y1 - y0;
   if (bw <= 0 || bh <= 0) return;
 
-  // Scale to fit, cap at 2× to avoid over-zooming a tiny tree
-  const k  = Math.min((W - 2 * FIT_PAD) / bw, (H - 2 * FIT_PAD) / bh, 2);
+  const k  = Math.min((W - 2 * FIT_PAD) / bw, (H - 2 * FIT_PAD) / bh);
   const tx = (W - k * (x0 + x1)) / 2;
   const ty = (H - k * (y0 + y1)) / 2;
 
@@ -512,6 +514,7 @@ function update(clickedPid) {
     event.stopPropagation();
     if (!d.data._hasKids) return;
     stateMap[pid(d)] = !stateMap[pid(d)];
+    autoFit = true;   // expand/collapse always re-enables auto-fit
     update(pid(d));
   });
 

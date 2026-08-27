@@ -126,100 +126,345 @@ svg:active { cursor: grabbing; }
   <button class="btn" id="btn-theme" onclick="toggleTheme()">&#9728; Light</button>
 </div>
 
-<div id="meta-bar"><span>Ecología de poblaciones y comunidades</span><span class="sep">·</span><span>Rodrigo J. Gonçalves</span><span class="sep">·</span><span>Universidad de Granada</span><span class="sep">·</span><span>2026</span></div>
+<div id="meta-bar"><span>Ecología</span><span class="sep">·</span><span>Rodrigo J. Gonçalves</span><span class="sep">·</span><span>Universidad de Granada</span><span class="sep">·</span><span>2026</span></div>
 
 <div id="canvas"><svg id="svg"></svg></div>
 
 <script>
 const RAW = {
-  "name": "Ecology",
+  "name": "Ecología",
   "collapsed": false,
-  "fontSize": 15,
+  "fontSize": 16,
   "children": [
     {
-      "name": "Population",
+      "name": "Individual (Autoecología)",
       "collapsed": true,
-      "fontSize": 15,
+      "fontSize": 14,
       "children": [
         {
-          "name": "Growth models",
+          "name": "Nicho ecológico",
           "collapsed": true,
-          "fontSize": 15,
           "children": [
             {
-              "name": "Logistic",
-              "collapsed": true,
-              "fontSize": 15
+              "name": "Fundamental vs. realizado",
+              "collapsed": true
             },
             {
-              "name": "Exponential",
-              "collapsed": true,
-              "fontSize": 15,
-              "children": [
-                {
-                  "name": "Continuous (r)",
-                  "collapsed": true,
-                  "fontSize": 15
-                },
-                {
-                  "name": "Discreto (lambda)",
-                  "collapsed": true,
-                  "fontSize": 15
-                }
-              ]
+              "name": "Ejes de recursos",
+              "collapsed": true
             }
           ]
         },
         {
-          "name": "Demography",
+          "name": "Adaptaciones fisiológicas",
           "collapsed": true,
-          "fontSize": 15
+          "children": [
+            {
+              "name": "Termorregulación",
+              "collapsed": true
+            },
+            {
+              "name": "Osmorregulación",
+              "collapsed": true
+            },
+            {
+              "name": "Tasa metabólica",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Rangos de tolerancia",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Ley del mínimo de Liebig",
+              "collapsed": true
+            },
+            {
+              "name": "Ley de tolerancia de Shelford",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Ecología del comportamiento",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Estrategias de forrajeo",
+              "collapsed": true
+            },
+            {
+              "name": "Selección de hábitat",
+              "collapsed": true
+            },
+            {
+              "name": "Migración",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Plasticidad fenotípica",
+          "collapsed": true
         }
       ]
     },
     {
-      "name": "Communities",
+      "name": "Población",
       "collapsed": true,
-      "fontSize": 15,
+      "fontSize": 14,
       "children": [
         {
-          "name": "Ecological interactions",
+          "name": "Modelos de crecimiento",
           "collapsed": true,
-          "fontSize": 15
-        },
-        {
-          "name": "Abundance and distribution",
-          "collapsed": true,
-          "fontSize": 15
-        },
-        {
-          "name": "Sub-communities",
-          "collapsed": true,
-          "fontSize": 15,
           "children": [
             {
-              "name": "S-C 01",
-              "collapsed": true,
-              "fontSize": 15
+              "name": "Crecimiento exponencial",
+              "collapsed": true
             },
             {
-              "name": "S-C 02\nanother!\nand another!\n just another",
-              "collapsed": true,
-              "fontSize": 15
+              "name": "Crecimiento logístico",
+              "collapsed": true
+            },
+            {
+              "name": "Efectos Allee",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Demografía",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Tablas de vida",
+              "collapsed": true
+            },
+            {
+              "name": "Estructura de edades",
+              "collapsed": true
+            },
+            {
+              "name": "Curvas de supervivencia",
+              "collapsed": true
+            },
+            {
+              "name": "Valor reproductivo",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Regulación poblacional",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Factores dependientes de la densidad",
+              "collapsed": true
+            },
+            {
+              "name": "Factores independientes de la densidad",
+              "collapsed": true
+            },
+            {
+              "name": "Control descendente vs. ascendente",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Metapoblaciones",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Dinámica de parches",
+              "collapsed": true
+            },
+            {
+              "name": "Dinámica fuente-sumidero",
+              "collapsed": true
+            },
+            {
+              "name": "Efecto rescate",
+              "collapsed": true
             }
           ]
         }
       ]
     },
     {
-      "name": "Systems",
+      "name": "Comunidades",
       "collapsed": true,
-      "fontSize": 15,
+      "fontSize": 14,
       "children": [
         {
-          "name": "next semester :)",
+          "name": "Interacciones ecológicas",
           "collapsed": true,
-          "fontSize": 15
+          "children": [
+            {
+              "name": "Competencia",
+              "collapsed": true
+            },
+            {
+              "name": "Depredación",
+              "collapsed": true
+            },
+            {
+              "name": "Herbivoría",
+              "collapsed": true
+            },
+            {
+              "name": "Mutualismo",
+              "collapsed": true
+            },
+            {
+              "name": "Parasitismo",
+              "collapsed": true
+            },
+            {
+              "name": "Comensalismo",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Diversidad de especies",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Riqueza de especies",
+              "collapsed": true
+            },
+            {
+              "name": "Equitatividad",
+              "collapsed": true
+            },
+            {
+              "name": "Índice de Shannon",
+              "collapsed": true
+            },
+            {
+              "name": "Diversidad beta",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Estructura de la comunidad",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Especies dominantes",
+              "collapsed": true
+            },
+            {
+              "name": "Especies clave",
+              "collapsed": true
+            },
+            {
+              "name": "Cascadas tróficas",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Sucesión",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Sucesión primaria",
+              "collapsed": true
+            },
+            {
+              "name": "Sucesión secundaria",
+              "collapsed": true
+            },
+            {
+              "name": "Comunidad clímax",
+              "collapsed": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sistemas",
+      "collapsed": true,
+      "fontSize": 14,
+      "children": [
+        {
+          "name": "Flujo de energía",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Productividad primaria",
+              "collapsed": true
+            },
+            {
+              "name": "Niveles tróficos",
+              "collapsed": true
+            },
+            {
+              "name": "Eficiencia ecológica (regla del 10%)",
+              "collapsed": true
+            },
+            {
+              "name": "Redes tróficas",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Ciclo de nutrientes",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Ciclo del carbono",
+              "collapsed": true
+            },
+            {
+              "name": "Ciclo del nitrógeno",
+              "collapsed": true
+            },
+            {
+              "name": "Ciclo del fósforo",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Descomposición",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Descomponedores y detritívoros",
+              "collapsed": true
+            },
+            {
+              "name": "Formación del suelo",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Patrones globales",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Biomas",
+              "collapsed": true
+            },
+            {
+              "name": "Gradiente latitudinal de diversidad",
+              "collapsed": true
+            },
+            {
+              "name": "Biogeografía de islas",
+              "collapsed": true
+            }
+          ]
         }
       ]
     }
@@ -336,8 +581,10 @@ function applyLayout(root, W, H) {
     root.each(d => { d.px = d.x; d.py = d.y; });
 
   } else {
-    // Horizontal
-    const xStep = 200;
+    // Horizontal: depth step = widest node + fixed gap, so links never go backwards
+    let maxNodeW = 0;
+    root.each(d => { maxNodeW = Math.max(maxNodeW, nw(d.data.name, d.data.fontSize)); });
+    const xStep = maxNodeW + 120;
     d3.tree()
       .nodeSize([1, xStep])
       .separation((a, b) => {
@@ -385,8 +632,9 @@ const zoomBeh = d3.zoom()
   .scaleExtent([0.1, 5])
   .on('zoom', e => {
     zoomG.attr('transform', e.transform);
-    // sourceEvent is non-null only for genuine user interactions (wheel, drag)
-    if (e.sourceEvent) autoFit = false;
+    // Disable auto-fit only on genuine pan/zoom gestures, not programmatic transforms
+    const t = e.sourceEvent && e.sourceEvent.type;
+    if (t === 'wheel' || t === 'mousemove' || t === 'touchmove') autoFit = false;
   });
 svgEl.call(zoomBeh).on('dblclick.zoom', null);
 
@@ -420,8 +668,7 @@ function fitToView(root, W, H, dur) {
   const bh = y1 - y0;
   if (bw <= 0 || bh <= 0) return;
 
-  // Scale to fit, cap at 2× to avoid over-zooming a tiny tree
-  const k  = Math.min((W - 2 * FIT_PAD) / bw, (H - 2 * FIT_PAD) / bh, 2);
+  const k  = Math.min((W - 2 * FIT_PAD) / bw, (H - 2 * FIT_PAD) / bh);
   const tx = (W - k * (x0 + x1)) / 2;
   const ty = (H - k * (y0 + y1)) / 2;
 
@@ -483,6 +730,7 @@ function update(clickedPid) {
     event.stopPropagation();
     if (!d.data._hasKids) return;
     stateMap[pid(d)] = !stateMap[pid(d)];
+    autoFit = true;   // expand/collapse always re-enables auto-fit
     update(pid(d));
   });
 
