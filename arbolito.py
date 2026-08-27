@@ -206,7 +206,25 @@ body {
 .btn.active { background: #1f4068; color: #79c0ff; border-color: #388bfd; }
 
 /* theme toggle button — never gets .active style */
-#btn-theme { margin-left: 10px; }
+#btn-theme { width: 100%; }
+
+#toolbar-right {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  margin-left: 10px;
+}
+
+#brand-link {
+  font-size: 10px;
+  color: var(--hint-color);
+  text-decoration: none;
+  text-align: center;
+  letter-spacing: .06em;
+  transition: color .15s;
+}
+#brand-link:hover { color: var(--btn-hover-c); }
 
 .hint { margin-left: auto; font-size: 11px; color: var(--hint-color); }
 
@@ -244,8 +262,12 @@ svg:active { cursor: grabbing; }
   <button class="btn"        id="btn-radial"  onclick="setLayout('radial')">Radial</button>
   <button class="btn"        id="btn-topdown" onclick="setLayout('topdown')">Top-down</button>
   <button class="btn active" id="btn-horiz"   onclick="setLayout('horiz')">Horizontal</button>
+  <button class="btn"        id="btn-reset"   onclick="location.reload()">Reset</button>
   <span class="hint">click to expand · drag to pan · scroll to zoom · auto-fits on expand/collapse</span>
-  <button class="btn" id="btn-theme" onclick="toggleTheme()">&#9728; Light</button>
+  <div id="toolbar-right">
+    <button class="btn" id="btn-theme" onclick="toggleTheme()">&#9728; Light</button>
+    <a href="https://github.com/rodrigo-j-goncalves/arbolito" target="_blank" id="brand-link">Arbolito</a>
+  </div>
 </div>
 
 {META_BAR}
