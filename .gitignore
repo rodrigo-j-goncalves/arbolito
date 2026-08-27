@@ -1,0 +1,9 @@
+# Ignore everything …
+*
+
+# … except the repo essentials
+!.gitignore
+!README.md
+!arbolito.py
+!mindmap.csv
+!mindmap.html
