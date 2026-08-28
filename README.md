@@ -170,4 +170,4 @@ You can adjust the `height` value to fit your slide dimensions.
 ## Licence & Credits
 
 - MIT Rodrigo J. Gonçalves
-- I _claudeveloped_ this :p
+- I _claudeveloped_ this :p (Claude Code, claude-sonnet-4-6)

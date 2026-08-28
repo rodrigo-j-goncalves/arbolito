@@ -140,7 +140,9 @@ svg:active { cursor: grabbing; }
   <button class="btn"        id="btn-radial"  onclick="setLayout('radial')">Radial</button>
   <button class="btn"        id="btn-topdown" onclick="setLayout('topdown')">Top-down</button>
   <button class="btn active" id="btn-horiz"   onclick="setLayout('horiz')">Horizontal</button>
-  <button class="btn"        id="btn-reset"   onclick="location.reload()">Reset</button>
+  <button class="btn"        id="btn-reset"       onclick="location.reload()">Reset</button>
+  <button class="btn"        id="btn-expand-all"  onclick="expandAll()">Expand all</button>
+  <button class="btn"        id="btn-collapse-all" onclick="collapseAll()">Collapse all</button>
   <span class="hint">click to expand · drag to pan · scroll to zoom · auto-fits on expand/collapse</span>
   <div id="toolbar-right">
     <button class="btn" id="btn-theme" onclick="toggleTheme()">&#9728; Light</button>
@@ -148,71 +150,168 @@ svg:active { cursor: grabbing; }
   </div>
 </div>
 
-<div id="meta-bar"><span>Parts of a computer</span><span class="sep">·</span><span>Juan Pérez</span><span class="sep">·</span><span>University of the World</span><span class="sep">·</span><span>2026</span></div>
+<div id="meta-bar"><span>Ecología</span><span class="sep">·</span><span>Rodrigo J. Gonçalves</span><span class="sep">·</span><span>Universidad de Granada</span><span class="sep">·</span><span>2026</span></div>
 
 <div id="canvas"><svg id="svg"></svg></div>
 
 <script>
 const RAW = {
-  "name": "Animals",
+  "name": "Ecología",
   "collapsed": false,
   "fontSize": 16,
   "children": [
     {
-      "name": "Vertebrates",
+      "name": "Individual (Autoecología)",
       "collapsed": true,
       "fontSize": 14,
       "children": [
         {
-          "name": "Mammals",
+          "name": "Nicho ecológico",
           "collapsed": true,
           "children": [
             {
-              "name": "Primates",
+              "name": "Fundamental vs. realizado",
               "collapsed": true
             },
             {
-              "name": "Carnivores",
-              "collapsed": true
-            },
-            {
-              "name": "Cetaceans",
+              "name": "Ejes de recursos",
               "collapsed": true
             }
           ]
         },
         {
-          "name": "Birds",
+          "name": "Adaptaciones fisiológicas",
           "collapsed": true,
           "children": [
             {
-              "name": "Raptors",
+              "name": "Termorregulación",
               "collapsed": true
             },
             {
-              "name": "Songbirds",
+              "name": "Osmorregulación",
               "collapsed": true
             },
             {
-              "name": "Ratites",
+              "name": "Tasa metabólica",
               "collapsed": true
             }
           ]
         },
         {
-          "name": "Ectotherms",
+          "name": "Rangos de tolerancia",
           "collapsed": true,
           "children": [
             {
-              "name": "Fish",
+              "name": "Ley del mínimo de Liebig",
               "collapsed": true
             },
             {
-              "name": "Amphibians",
+              "name": "Ley de tolerancia de Shelford",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Ecología del comportamiento",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Estrategias de forrajeo",
               "collapsed": true
             },
             {
-              "name": "Reptiles",
+              "name": "Selección de hábitat",
+              "collapsed": true
+            },
+            {
+              "name": "Migración",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Plasticidad fenotípica",
+          "collapsed": true
+        }
+      ]
+    },
+    {
+      "name": "Población",
+      "collapsed": true,
+      "fontSize": 14,
+      "children": [
+        {
+          "name": "Modelos de crecimiento",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Crecimiento exponencial",
+              "collapsed": true
+            },
+            {
+              "name": "Crecimiento logístico",
+              "collapsed": true
+            },
+            {
+              "name": "Efectos Allee",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Demografía",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Tablas de vida",
+              "collapsed": true
+            },
+            {
+              "name": "Estructura de edades",
+              "collapsed": true
+            },
+            {
+              "name": "Curvas de supervivencia",
+              "collapsed": true
+            },
+            {
+              "name": "Valor reproductivo",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Regulación poblacional",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Factores dependientes de la densidad",
+              "collapsed": true
+            },
+            {
+              "name": "Factores independientes de la densidad",
+              "collapsed": true
+            },
+            {
+              "name": "Control descendente vs. ascendente",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Metapoblaciones",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Dinámica de parches",
+              "collapsed": true
+            },
+            {
+              "name": "Dinámica fuente-sumidero",
+              "collapsed": true
+            },
+            {
+              "name": "Efecto rescate",
               "collapsed": true
             }
           ]
@@ -220,60 +319,173 @@ const RAW = {
       ]
     },
     {
-      "name": "Invertebrates",
+      "name": "Comunidades",
       "collapsed": true,
       "fontSize": 14,
       "children": [
         {
-          "name": "Arthropods",
+          "name": "Interacciones ecológicas",
           "collapsed": true,
           "children": [
             {
-              "name": "Insects",
+              "name": "Competencia",
               "collapsed": true
             },
             {
-              "name": "Arachnids",
+              "name": "Depredación",
               "collapsed": true
             },
             {
-              "name": "Crustaceans",
+              "name": "Herbivoría",
+              "collapsed": true
+            },
+            {
+              "name": "Mutualismo",
+              "collapsed": true
+            },
+            {
+              "name": "Parasitismo",
+              "collapsed": true
+            },
+            {
+              "name": "Comensalismo",
               "collapsed": true
             }
           ]
         },
         {
-          "name": "Molluscs",
+          "name": "Diversidad de especies",
           "collapsed": true,
           "children": [
             {
-              "name": "Bivalves",
+              "name": "Riqueza de especies",
               "collapsed": true
             },
             {
-              "name": "Gastropods",
+              "name": "Equitatividad",
               "collapsed": true
             },
             {
-              "name": "Cephalopods",
+              "name": "Índice de Shannon",
+              "collapsed": true
+            },
+            {
+              "name": "Diversidad beta",
               "collapsed": true
             }
           ]
         },
         {
-          "name": "Echinoderms",
+          "name": "Estructura de la comunidad",
           "collapsed": true,
           "children": [
             {
-              "name": "Sea stars",
+              "name": "Especies dominantes",
               "collapsed": true
             },
             {
-              "name": "Sea urchins",
+              "name": "Especies clave",
               "collapsed": true
             },
             {
-              "name": "Sea cucumbers",
+              "name": "Cascadas tróficas",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Sucesión",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Sucesión primaria",
+              "collapsed": true
+            },
+            {
+              "name": "Sucesión secundaria",
+              "collapsed": true
+            },
+            {
+              "name": "Comunidad clímax",
+              "collapsed": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sistemas",
+      "collapsed": true,
+      "fontSize": 14,
+      "children": [
+        {
+          "name": "Flujo de energía",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Productividad primaria",
+              "collapsed": true
+            },
+            {
+              "name": "Niveles tróficos",
+              "collapsed": true
+            },
+            {
+              "name": "Eficiencia ecológica (regla del 10%)",
+              "collapsed": true
+            },
+            {
+              "name": "Redes tróficas",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Ciclo de nutrientes",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Ciclo del carbono",
+              "collapsed": true
+            },
+            {
+              "name": "Ciclo del nitrógeno",
+              "collapsed": true
+            },
+            {
+              "name": "Ciclo del fósforo",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Descomposición",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Descomponedores y detritívoros",
+              "collapsed": true
+            },
+            {
+              "name": "Formación del suelo",
+              "collapsed": true
+            }
+          ]
+        },
+        {
+          "name": "Patrones globales",
+          "collapsed": true,
+          "children": [
+            {
+              "name": "Biomas",
+              "collapsed": true
+            },
+            {
+              "name": "Gradiente latitudinal de diversidad",
+              "collapsed": true
+            },
+            {
+              "name": "Biogeografía de islas",
               "collapsed": true
             }
           ]
@@ -650,6 +862,21 @@ function setLayout(l) {
   isFirst = true;
   update(null);
 }
+
+// ── Expand / Collapse all ────────────────────────────────────────────────────
+function setAllStates(collapsed) {
+  function walk(node, id) {
+    stateMap[id] = collapsed;
+    if (node.children) node.children.forEach(c => walk(c, id + '\x01' + c.name));
+  }
+  walk(RAW, RAW.name);
+  autoFit = true;
+  isFirst = true;
+  update(null);
+}
+
+function expandAll()   { setAllStates(false); }
+function collapseAll() { setAllStates(true);  }
 
 function init() {
   const W = document.getElementById('canvas').clientWidth;

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-arbolito  v1.0.0
+arbolito  v1.1.0
 Reads a CSV file and writes an interactive D3.js mind map HTML file.
 
 Usage:
@@ -262,7 +262,9 @@ svg:active { cursor: grabbing; }
   <button class="btn"        id="btn-radial"  onclick="setLayout('radial')">Radial</button>
   <button class="btn"        id="btn-topdown" onclick="setLayout('topdown')">Top-down</button>
   <button class="btn active" id="btn-horiz"   onclick="setLayout('horiz')">Horizontal</button>
-  <button class="btn"        id="btn-reset"   onclick="location.reload()">Reset</button>
+  <button class="btn"        id="btn-reset"       onclick="location.reload()">Reset</button>
+  <button class="btn"        id="btn-expand-all"  onclick="expandAll()">Expand all</button>
+  <button class="btn"        id="btn-collapse-all" onclick="collapseAll()">Collapse all</button>
   <span class="hint">click to expand · drag to pan · scroll to zoom · auto-fits on expand/collapse</span>
   <div id="toolbar-right">
     <button class="btn" id="btn-theme" onclick="toggleTheme()">&#9728; Light</button>
@@ -644,6 +646,21 @@ function setLayout(l) {
   isFirst = true;
   update(null);
 }
+
+// ── Expand / Collapse all ────────────────────────────────────────────────────
+function setAllStates(collapsed) {
+  function walk(node, id) {
+    stateMap[id] = collapsed;
+    if (node.children) node.children.forEach(c => walk(c, id + '\x01' + c.name));
+  }
+  walk(RAW, RAW.name);
+  autoFit = true;
+  isFirst = true;
+  update(null);
+}
+
+function expandAll()   { setAllStates(false); }
+function collapseAll() { setAllStates(true);  }
 
 function init() {
   const W = document.getElementById('canvas').clientWidth;
