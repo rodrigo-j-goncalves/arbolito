@@ -5,7 +5,5 @@
 !.gitignore
 !README.md
 !arbolito.py
-!mindmap.csv
-!mindmap.html
 !assets/
 !assets/**
