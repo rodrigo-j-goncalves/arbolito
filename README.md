@@ -7,7 +7,9 @@
 
 ---
 
-<img src="assets/README/image-1.png" alt="alt text" width="70%">
+<p align="center">
+  <img src="assets/README/image-1.png" alt="alt text" width="70%">
+</p>
 
 ---
 
