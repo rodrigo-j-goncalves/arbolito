@@ -50,6 +50,18 @@ This reads `arbolito_mindmap.csv` and writes `arbolito_mindmap.html` in the same
     python arbolito.py --input mindmap.csv --output mindmap.html --save-json tree.json
     ```
 
+- You can set the initial view when the page loads:
+
+    ```bash
+    python arbolito.py --layout radial --theme light --expand all
+    ```
+
+    | Flag | Values | Default | Effect |
+    | --- | --- | --- | --- |
+    | `--layout` | `radial`, `topdown`, `horizontal` | `horizontal` | Initial layout |
+    | `--theme` | `light`, `dark` | `dark` | Initial theme |
+    | `--expand` | `all`, `none`, `file` | `file` | `all`/`none` force every node open/closed on load; `file` respects each row's `collapsed` column |
+
 ---
 
 ## CSV Format

@@ -125,7 +125,7 @@ def csv_to_meta_and_tree(path: Path) -> tuple:
 # ── HTML Template ─────────────────────────────────────────────────────────────
 
 TEMPLATE = r"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en"{HTML_CLASS_ATTR}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -265,13 +265,13 @@ svg:active { cursor: grabbing; }
   <span class="lbl">Layout</span>
   <button class="btn"        id="btn-radial"  onclick="setLayout('radial')">Radial</button>
   <button class="btn"        id="btn-topdown" onclick="setLayout('topdown')">Top-down</button>
-  <button class="btn active" id="btn-horiz"   onclick="setLayout('horiz')">Horizontal</button>
+  <button class="btn"        id="btn-horiz"   onclick="setLayout('horiz')">Horizontal</button>
   <button class="btn"        id="btn-reset"       onclick="location.reload()">Reset</button>
   <button class="btn"        id="btn-expand-all"  onclick="expandAll()">Expand all</button>
   <button class="btn"        id="btn-collapse-all" onclick="collapseAll()">Collapse all</button>
   <span class="hint">click to expand · drag to pan · scroll to zoom · auto-fits on expand/collapse</span>
   <div id="toolbar-right">
-    <button class="btn" id="btn-theme" onclick="toggleTheme()">&#9728; Light</button>
+    <button class="btn" id="btn-theme" onclick="toggleTheme()">{THEME_BTN_LABEL}</button>
     <a href="https://github.com/rodrigo-j-goncalves/arbolito" target="_blank" id="brand-link">Arbolito</a>
   </div>
 </div>
@@ -301,7 +301,8 @@ const PALETTE = [
   '#8a2d2d','#2d7a8a','#7a8a2d',
 ];
 
-let layout  = 'horiz';
+let layout  = '{INIT_LAYOUT}';
+const INIT_EXPAND = '{INIT_EXPAND}';
 let isFirst = true;
 let autoFit = true;       // auto-fit viewport to tree; disabled by manual pan/zoom
 const stateMap = {};
@@ -651,7 +652,7 @@ function update(clickedPid) {
 }
 
 // ── Theme toggle ─────────────────────────────────────────────────────────────
-let darkMode = true;
+let darkMode = {INIT_DARK};
 
 function toggleTheme() {
   darkMode = !darkMode;
@@ -704,7 +705,12 @@ function init() {
   const W = document.getElementById('canvas').clientWidth;
   const H = document.getElementById('canvas').clientHeight;
   centerG.attr('transform', centerTransform(W, H));
-  update(null);
+  ['radial','topdown','horiz'].forEach(id =>
+    document.getElementById('btn-'+id).classList.toggle('active', layout === id)
+  );
+  if (INIT_EXPAND === 'all')       setAllStates(false);
+  else if (INIT_EXPAND === 'none') setAllStates(true);
+  else                              update(null);
 }
 
 window.addEventListener('resize', () => {
@@ -742,6 +748,13 @@ def main():
     parser.add_argument('--output',    default='arbolito_mindmap.html', help='Output HTML file (default: arbolito_mindmap.html)')
     parser.add_argument('--save-json', default=None,           metavar='FILE',
                         help='Also save the intermediate JSON tree to this file')
+    parser.add_argument('--layout', choices=['radial', 'topdown', 'horizontal'], default='horizontal',
+                        help='Initial layout (default: horizontal)')
+    parser.add_argument('--theme',  choices=['light', 'dark'], default='dark',
+                        help='Initial theme (default: dark)')
+    parser.add_argument('--expand', choices=['all', 'none', 'file'], default='file',
+                        help="Initial expand state: 'all' expanded, 'none' collapsed, "
+                             "or 'file' to respect each row's collapsed column (default: file)")
     args = parser.parse_args()
 
     src = Path(args.input)
@@ -760,9 +773,19 @@ def main():
     title_val = meta.get('title', '').strip()
     page_title = f"{title_val} - Arbolito Mind Map" if title_val else "Arbolito Mind Map"
 
+    init_layout    = {'radial': 'radial', 'topdown': 'topdown', 'horizontal': 'horiz'}[args.layout]
+    init_dark      = 'true' if args.theme == 'dark' else 'false'
+    html_class_attr = '' if args.theme == 'dark' else ' class="light"'
+    theme_btn_label = '&#9728; Light' if args.theme == 'dark' else '&#9790; Dark'
+
     html = TEMPLATE.replace('{JSON_DATA}', json_str)
     html = html.replace('{META_BAR}', build_meta_bar(meta))
     html = html.replace('{TITLE}', html_escape(page_title))
+    html = html.replace('{HTML_CLASS_ATTR}', html_class_attr)
+    html = html.replace('{THEME_BTN_LABEL}', theme_btn_label)
+    html = html.replace('{INIT_LAYOUT}', init_layout)
+    html = html.replace('{INIT_DARK}', init_dark)
+    html = html.replace('{INIT_EXPAND}', args.expand)
     dst.write_text(html, encoding='utf-8')
     print(f"HTML written: {dst}")
 
