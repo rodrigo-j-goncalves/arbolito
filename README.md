@@ -16,8 +16,8 @@
 | File | Purpose |
 | --- | --- |
 | `arbolito.py` | Python script that reads the CSV and writes the HTML |
-| `mindmap.csv` | Your content (edit this) |
-| `mindmap.html` | Generated output (do not edit directly) |
+| `arbolito_mindmap.csv` | Your content (edit this) |
+| `arbolito_mindmap.html` | Generated output (do not edit directly) |
 
 ---
 
@@ -34,7 +34,7 @@ An internet connection is required at viewing time to load D3.js and the Atkinso
 python arbolito.py
 ```
 
-This reads `mindmap.csv` and writes `mindmap.html` in the same directory.
+This reads `arbolito_mindmap.csv` and writes `arbolito_mindmap.html` in the same directory.
 
 ### Options
 
@@ -157,12 +157,12 @@ which results in this mindmap:
 
 ## Embedding in Quarto RevealJS
 
-Save `mindmap.html` next to your `.qmd` file, then insert a slide like this:
+Save `arbolito_mindmap.html` next to your `.qmd` file, then insert a slide like this:
 
 ```markdown
 ## My Mind Map
 
-<iframe src="mindmap.html" width="100%" height="600px" frameborder="0"></iframe>
+<iframe src="arbolito_mindmap.html" width="100%" height="600px" frameborder="0"></iframe>
 ```
 
 You can adjust the `height` value to fit your slide dimensions.

@@ -700,8 +700,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="arbolito — build an interactive mind-map HTML from a CSV file."
     )
-    parser.add_argument('--input',     default='mindmap.csv',  help='Input CSV file (default: mindmap.csv)')
-    parser.add_argument('--output',    default='mindmap.html', help='Output HTML file (default: mindmap.html)')
+    parser.add_argument('--input',     default='arbolito_mindmap.csv',  help='Input CSV file (default: arbolito_mindmap.csv)')
+    parser.add_argument('--output',    default='arbolito_mindmap.html', help='Output HTML file (default: arbolito_mindmap.html)')
     parser.add_argument('--save-json', default=None,           metavar='FILE',
                         help='Also save the intermediate JSON tree to this file')
     args = parser.parse_args()
