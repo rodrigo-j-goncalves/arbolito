@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-arbolito  v1.1.0
+arbolito  v1.2.0
 Reads a CSV file and writes an interactive D3.js mind map HTML file.
 
 Usage:
@@ -12,6 +12,7 @@ import csv
 import json
 import argparse
 from pathlib import Path
+from html import escape as html_escape
 
 
 # ── CSV → Tree ────────────────────────────────────────────────────────────────
@@ -96,6 +97,9 @@ def csv_to_meta_and_tree(path: Path) -> tuple:
         fs = parse_fontsize(row.get('fontSize', ''))
         if fs is not None:
             node['fontSize'] = fs
+        link = row.get('link', '').strip()
+        if link:
+            node['link'] = link
 
         if depth == 0:
             root  = node
@@ -125,7 +129,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mind Map</title>
+<title>{TITLE}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -346,6 +350,7 @@ function mkPlain(node, pathId) {
   return {
     name:     node.name,
     fontSize: node.fontSize || null,
+    link:     node.link || null,
     _hasKids: hasKids,
     children: (!stateMap[id] && hasKids)
       ? node.children.map(c => mkPlain(c, id + '\x01' + c.name))
@@ -587,6 +592,39 @@ function update(clickedPid) {
     .style('pointer-events','none')
     .text(d => stateMap[pid(d)] ? '\u25b8' : '\u25be');
 
+  // Link badge: drawn as SVG paths (not a text glyph), so it renders
+  // identically regardless of the viewer's fonts/emoji support.
+  const linkG = ne.filter(d => d.data.link)
+    .append('g')
+    .attr('class', 'node-link')
+    .style('cursor', 'pointer')
+    .attr('transform', d => {
+      const hw = nw(d.data.name, d.data.fontSize) / 2;
+      const hh = nh(d.data.name, d.data.fontSize) / 2;
+      return `translate(${hw - 11},${-hh + 10})`;
+    })
+    .on('click', (event, d) => {
+      event.stopPropagation();
+      window.open(d.data.link, '_blank', 'noopener,noreferrer');
+    });
+
+  linkG.append('circle')
+    .attr('r', 8)
+    .attr('fill', 'transparent');
+
+  linkG.append('path')
+    .attr('transform', 'scale(0.42) translate(-12,-12)')
+    .attr('d', 'M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71')
+    .attr('fill', 'none')
+    .attr('stroke', d => rgba(branchColor(d), 0.85))
+    .attr('stroke-width', 2.4)
+    .attr('stroke-linecap', 'round')
+    .attr('stroke-linejoin', 'round')
+    .style('pointer-events', 'none');
+
+  linkG.append('title')
+    .text(d => d.data.link);
+
   ne.transition().duration(dur).ease(d3.easeCubicInOut)
     .attr('transform', d => `translate(${d.px},${d.py})`)
     .style('opacity', 1);
@@ -719,8 +757,12 @@ def main():
         Path(args.save_json).write_text(json_str, encoding='utf-8')
         print(f"JSON saved: {args.save_json}")
 
+    title_val = meta.get('title', '').strip()
+    page_title = f"{title_val} - Arbolito Mind Map" if title_val else "Arbolito Mind Map"
+
     html = TEMPLATE.replace('{JSON_DATA}', json_str)
     html = html.replace('{META_BAR}', build_meta_bar(meta))
+    html = html.replace('{TITLE}', html_escape(page_title))
     dst.write_text(html, encoding='utf-8')
     print(f"HTML written: {dst}")
 

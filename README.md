@@ -80,10 +80,11 @@ As you can see, `L1`, `L2`, `L3`, ... are hierarchy levels. **You can add as man
 
 **Visualization options**
 
-Two more columns define how the mindmap is shown:
+Three more columns define how the mindmap is shown:
 
 - `collapsed` — Whether the node is collapsed in the initial view. Write `false` to start expanded. Leave blank to use the default (collapsed).
 - `fontSize` — Font size in pixels for this node's label. Leave blank to use the default (13px).
+- `link` — A URL for this node. Adds a small link icon in the corner of the node; clicking it opens the URL in a new tab without expanding/collapsing the node. Leave blank for no link.
 
 ### A simple, full example
 
@@ -139,6 +140,7 @@ which results in this mindmap:
 - Blank rows are ignored.
 - `collapsed` = false means the node's children are visible on load. Any other value or blank means collapsed.
 - `fontSize` value affects only the label of that specific node. Child nodes are not affected.
+- `link` value affects only that specific node. Child nodes are not affected.
 
 ---
 
@@ -147,6 +149,7 @@ which results in this mindmap:
 | Action | Effect |
 | --- | --- |
 | Click a node | Expand or collapse its children |
+| Click the link icon (if present) | Opens the node's `link` URL in a new tab |
 | Expand / collapse | Viewport auto-fits to show all visible nodes |
 | Drag | Pan the view (disables auto-fit) |
 | Scroll / pinch | Zoom in and out (disables auto-fit) |
