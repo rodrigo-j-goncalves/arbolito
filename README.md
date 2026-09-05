@@ -41,13 +41,13 @@ This reads `arbolito_mindmap.csv` and writes `arbolito_mindmap.html` in the same
 - You can specify `input` and `output` files:
 
     ```bash
-    python arbolito.py --input my_topic.csv --output my_topic.html
+    python arbolito.py --input mindmap.csv --output mindmap.html
     ```
 
 - You can also save the intermediate JSON tree for inspection:
 
     ```bash
-    python arbolito.py --input my_topic.csv --output my_topic.html --save-json tree.json
+    python arbolito.py --input mindmap.csv --output mindmap.html --save-json tree.json
     ```
 
 ---
@@ -62,7 +62,7 @@ Open or create your CSV in any spreadsheet application (e.g. LibreOffice Calc, M
 
 You can add `META` rows to include information (eg Title, Author, University/Company, Date, etc.). This information will be shown on the mindmap. `META` rows are optional, and there is no maximum (but it won't look nice if you add too much text!).
 
-Here I show an example where I include a `title`, `author`, `company`, and `date`. These names are just for your CSV file, and are not shown on the mindmap. The mindmap shows the values only (third column)
+Here I show an example where I include a `title`, `author`, `company`, and `date`. These names are just for your CSV file, and are not shown on the mindmap (you can add any other!). The mindmap shows the values only (third column)
 
 <img src="assets/README/image-3.png" alt="alt text" width="50%">
 
@@ -155,7 +155,7 @@ which results in this mindmap:
 
 ---
 
-## Embedding in Quarto RevealJS
+## Embedding in Quarto RevealJS (or on your website!)
 
 Save `arbolito_mindmap.html` next to your `.qmd` file, then insert a slide like this:
 
@@ -167,7 +167,7 @@ Save `arbolito_mindmap.html` next to your `.qmd` file, then insert a slide like 
 
 You can adjust the `height` value to fit your slide dimensions.
 
-## Licence & Credits
+## License & Credits
 
 - MIT Rodrigo J. Gonçalves
 - I _claudeveloped_ this :p (Claude Code, claude-sonnet-4-6)
