@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-arbolito  v1.2.0
+arbolito  v1.3.0
 Reads a CSV file and writes an interactive D3.js mind map HTML file.
 
 Usage:
@@ -75,6 +75,14 @@ def csv_to_meta_and_tree(path: Path) -> tuple:
         except ValueError:
             return None
 
+    def parse_order(val):
+        if val is None or val.strip() == '':
+            return None
+        try:
+            return int(val.strip())
+        except ValueError:
+            return None
+
     root  = None
     stack = []
 
@@ -100,6 +108,9 @@ def csv_to_meta_and_tree(path: Path) -> tuple:
         link = row.get('link', '').strip()
         if link:
             node['link'] = link
+        order = parse_order(row.get('order', ''))
+        if order is not None:
+            node['order'] = order
 
         if depth == 0:
             root  = node
@@ -700,6 +711,60 @@ function setAllStates(collapsed) {
 
 function expandAll()   { setAllStates(false); }
 function collapseAll() { setAllStates(true);  }
+
+// ── Step sequencing (optional 'order' column) ───────────────────────────────
+// Exposes a minimal Reveal.js-compatible surface so this page can be driven
+// as a "secondary" presentation by the quarto-splice extension, one node per
+// advance keypress. Purely additive: nothing here is triggered by clicking
+// or normal use of this page on its own.
+const orderNodeId = {};
+(function indexOrder(node, id) {
+  if (node.order) orderNodeId[node.order] = id;
+  if (node.children) node.children.forEach(c => indexOrder(c, id + '\x01' + c.name));
+})(RAW, RAW.name);
+
+const maxOrder = Math.max(0, ...Object.keys(orderNodeId).map(Number));
+let stepIndex  = 0;
+const slidechangedCbs = [];
+
+window.Reveal = {
+  getTotalSlides: () => maxOrder + 1,
+  getIndices:     () => ({ h: stepIndex }),
+  isReady:        () => true,
+  on(evt, cb) {
+    if (evt === 'ready') cb();
+    else if (evt === 'slidechanged') slidechangedCbs.push(cb);
+  },
+  next() {
+    if (stepIndex >= maxOrder) return;
+    stepIndex += 1;
+    const id = orderNodeId[stepIndex];
+    if (id) { stateMap[id] = false; autoFit = true; update(id); }
+    slidechangedCbs.forEach(cb => cb({ indexh: stepIndex }));
+  },
+  prev() {
+    if (stepIndex <= 0) return;
+    const id = orderNodeId[stepIndex];
+    if (id) { stateMap[id] = true; autoFit = true; update(id); }
+    stepIndex -= 1;
+    slidechangedCbs.forEach(cb => cb({ indexh: stepIndex }));
+  },
+};
+
+// Standalone fallback: lets the order sequence be stepped through with the
+// keyboard when this page is opened on its own (not embedded via splice,
+// which drives Reveal.next()/prev() itself and never lets keydown reach
+// this document, so this listener is inert in that case).
+document.addEventListener('keydown', function (event) {
+  const isNext = event.key === 'ArrowRight' || event.key === 'n' || event.key === 'N'
+              || (event.key === ' ' && !event.shiftKey);
+  const isPrev = event.key === 'ArrowLeft'  || event.key === 'p' || event.key === 'P'
+              || (event.key === ' ' && event.shiftKey);
+  if (!isNext && !isPrev) return;
+  event.preventDefault();
+  if (isNext) window.Reveal.next();
+  else        window.Reveal.prev();
+});
 
 function init() {
   const W = document.getElementById('canvas').clientWidth;
