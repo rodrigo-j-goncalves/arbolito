@@ -206,7 +206,7 @@ which results in this mindmap:
 | --- | --- |
 | Click a node | Expand or collapse its children |
 | Click the link icon (if present) | Opens the node's `link` URL in a new tab |
-| Expand / collapse | Viewport auto-fits to show all visible nodes |
+| Expand / collapse | Viewport auto-fits to show all visible nodes; root-only view is capped at ~25% of viewport width |
 | Drag | Pan the view (disables auto-fit) |
 | Scroll / pinch | Zoom in and out (disables auto-fit) |
 | Change layout | Resets auto-fit and re-fits to the new layout |
