@@ -123,6 +123,16 @@ Three more columns define how the mindmap is shown:
 - `link` — A URL for this node. Adds a small link icon in the corner of the node; clicking it opens the URL in a new tab without expanding/collapsing the node. Leave blank for no link.
 - `order` — A step number (1, 2, 3, ...) for stepping through nodes one at a time, e.g. during a lecture. See [Use this in a presentation](#use-this-in-a-presentation).
 
+#### Multiline node labels
+
+To split a node label across two or more lines, type `\n` (backslash + n) directly in the cell:
+
+```
+Exposición \n Plaza Profesorado Permanente Laboral
+```
+
+Alternatively, press **Ctrl+Enter** (LibreOffice) or **Alt+Enter** (Excel) to insert a real newline in the cell — both approaches produce the same result.
+
 ### A simple, full example
 
 This CSV structure:
@@ -184,6 +194,7 @@ which results in this mindmap:
 - `collapsed` = false means the node's children are visible on load. Any other value or blank means collapsed.
 - `fontSize` value affects only the label of that specific node. Child nodes are not affected.
 - `link` value affects only that specific node. Child nodes are not affected.
+- Node labels can span multiple lines: type `\n` in the cell, or use Ctrl+Enter (LibreOffice) / Alt+Enter (Excel) to insert a real newline.
 - `order` value affects only that specific node; it does not force its ancestors open — see [Use this in a presentation](#use-this-in-a-presentation).
 
 ---
