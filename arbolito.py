@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-arbolito  v1.3.0
+arbolito  v1.4.0
 Reads a CSV file and writes an interactive D3.js mind map HTML file.
 
 Usage:
@@ -186,8 +186,7 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
+  position: relative;
   -webkit-user-select: none;
   user-select: none;
   transition: background .3s;
@@ -200,7 +199,6 @@ body {
   padding: 8px 16px;
   background: var(--toolbar-bg);
   border-bottom: 1px solid var(--toolbar-bdr);
-  flex-shrink: 0;
   transition: background .3s, border-color .3s;
 }
 
@@ -250,7 +248,6 @@ body {
   padding: 5px 16px;
   background: var(--toolbar-bg);
   border-bottom: 1px solid var(--toolbar-bdr);
-  flex-shrink: 0;
   gap: 0;
   transition: background .3s, border-color .3s;
 }
@@ -266,29 +263,70 @@ body {
   color: var(--toolbar-bdr);
 }
 
-#canvas { flex: 1; overflow: hidden; }
+#header-outer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+#header-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10px;
+  background: var(--toolbar-bg);
+  border-bottom: 1px solid var(--toolbar-bdr);
+  cursor: default;
+  opacity: 0.45;
+  transition: opacity .2s, background .3s, border-color .3s;
+}
+
+#header-outer:hover #header-tab { opacity: 1; }
+
+#header-tab::after {
+  content: '▾';
+  font-size: 7px;
+  color: var(--lbl-color);
+  line-height: 1;
+}
+
+#header-wrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+}
+
+#header-outer:hover #header-wrap { max-height: 200px; }
+
+#canvas { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
 svg { width: 100%; height: 100%; cursor: grab; }
 svg:active { cursor: grabbing; }
 </style>
 </head>
 <body>
 
-<div id="toolbar">
-  <span class="lbl">Layout</span>
-  <button class="btn"        id="btn-radial"  onclick="setLayout('radial')">Radial</button>
-  <button class="btn"        id="btn-topdown" onclick="setLayout('topdown')">Top-down</button>
-  <button class="btn"        id="btn-horiz"   onclick="setLayout('horiz')">Horizontal</button>
-  <button class="btn"        id="btn-reset"       onclick="location.reload()">Reset</button>
-  <button class="btn"        id="btn-expand-all"  onclick="expandAll()">Expand all</button>
-  <button class="btn"        id="btn-collapse-all" onclick="collapseAll()">Collapse all</button>
-  <span class="hint">click to expand · drag to pan · scroll to zoom · auto-fits on expand/collapse</span>
-  <div id="toolbar-right">
-    <button class="btn" id="btn-theme" onclick="toggleTheme()">{THEME_BTN_LABEL}</button>
-    <a href="https://github.com/rodrigo-j-goncalves/arbolito" target="_blank" id="brand-link">Arbolito</a>
+<div id="header-outer">
+  <div id="header-tab"></div>
+  <div id="header-wrap">
+    <div id="toolbar">
+      <span class="lbl">Layout</span>
+      <button class="btn"        id="btn-radial"  onclick="setLayout('radial')">Radial</button>
+      <button class="btn"        id="btn-topdown" onclick="setLayout('topdown')">Top-down</button>
+      <button class="btn"        id="btn-horiz"   onclick="setLayout('horiz')">Horizontal</button>
+      <button class="btn"        id="btn-reset"       onclick="location.reload()">Reset</button>
+      <button class="btn"        id="btn-expand-all"  onclick="expandAll()">Expand all</button>
+      <button class="btn"        id="btn-collapse-all" onclick="collapseAll()">Collapse all</button>
+      <span class="hint">click to expand · drag to pan · scroll to zoom · auto-fits on expand/collapse</span>
+      <div id="toolbar-right">
+        <button class="btn" id="btn-theme" onclick="toggleTheme()">{THEME_BTN_LABEL}</button>
+        <a href="https://github.com/rodrigo-j-goncalves/arbolito" target="_blank" id="brand-link">Arbolito</a>
+      </div>
+    </div>
+    {META_BAR}
   </div>
 </div>
-
-{META_BAR}
 
 <div id="canvas"><svg id="svg"></svg></div>
 
