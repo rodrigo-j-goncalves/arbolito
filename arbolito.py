@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-arbolito  v1.6.0
+arbolito  v1.7.1
 Reads a CSV file and writes an interactive D3.js mind map HTML file.
 
 Usage:
