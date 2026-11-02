@@ -62,6 +62,7 @@ This reads `arbolito_mindmap.csv` and writes `arbolito_mindmap.html` in the same
     | `--layout` | `radial`, `topdown`, `horizontal` | `horizontal` | Initial layout |
     | `--theme` | `light`, `dark` | `dark` | Initial theme |
     | `--expand` | `all`, `none`, `file` | `file` | `all`/`none` force every node open/closed on load; `file` respects each row's `collapsed` column |
+    | `--bg` | any CSS color | *(theme default)* | Override the canvas background (e.g. `'#1a1a2e'`, `transparent`) |
 
 
 #### Export as JSON
@@ -209,7 +210,7 @@ which results in this mindmap:
 | Drag | Pan the view (disables auto-fit) |
 | Scroll / pinch | Zoom in and out (disables auto-fit) |
 | Change layout | Resets auto-fit and re-fits to the new layout |
-| Layout buttons | Switch between Radial, Top-down, and Horizontal layouts |
+| Hover top strip | Reveals the toolbar (layout, theme, expand/collapse buttons) |
 
 ---
 
@@ -226,6 +227,21 @@ Save `arbolito_mindmap.html` next to your `.qmd` file, then insert a slide like 
 ```
 
 You can adjust the `height` value to fit your slide dimensions.
+
+To blend the mind map into your slide's background, generate it with `--bg transparent` and add `style="background: transparent"` to the iframe:
+
+```bash
+python arbolito.py --bg transparent
+```
+
+```markdown
+<iframe src="arbolito_mindmap.html" width="100%" height="600px"
+        frameborder="0" style="background: transparent;"></iframe>
+```
+
+#### Toolbar auto-hide
+
+The toolbar (layout, theme, expand/collapse buttons) is hidden by default to keep the view clean during presentations. Hover over the thin strip at the top of the mind map to reveal it. The META information bar (title, author, etc.) is always visible.
 
 
 ### Auto 'animate'

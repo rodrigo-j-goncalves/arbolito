@@ -310,6 +310,7 @@ svg:active { cursor: grabbing; }
 
 <div id="header-outer">
   <div id="header-tab"></div>
+  {META_BAR}
   <div id="header-wrap">
     <div id="toolbar">
       <span class="lbl">Layout</span>
@@ -325,7 +326,6 @@ svg:active { cursor: grabbing; }
         <a href="https://github.com/rodrigo-j-goncalves/arbolito" target="_blank" id="brand-link">Arbolito</a>
       </div>
     </div>
-    {META_BAR}
   </div>
 </div>
 
