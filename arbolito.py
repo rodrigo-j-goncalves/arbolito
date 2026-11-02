@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-arbolito  v1.5.0
+arbolito  v1.6.0
 Reads a CSV file and writes an interactive D3.js mind map HTML file.
 
 Usage:
@@ -272,26 +272,28 @@ body {
   z-index: 50;
 }
 
-#header-tab {
+#settings-btn {
+  position: fixed;
+  top: 6px;
+  left: 8px;
+  z-index: 100;
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  border: 1px solid var(--btn-bdr);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  padding: 5px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity .2s, background .15s, color .15s;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 10px;
-  background: var(--toolbar-bg);
-  border-bottom: 1px solid var(--toolbar-bdr);
-  cursor: default;
-  opacity: 0.45;
-  transition: opacity .2s, background .3s, border-color .3s;
 }
+#settings-btn:hover, #settings-btn.open { opacity: 1; background: var(--btn-hover-bg); color: var(--btn-hover-c); }
 
-#header-outer:hover #header-tab { opacity: 1; }
-
-#header-tab::after {
-  content: '▾';
-  font-size: 7px;
-  color: var(--lbl-color);
-  line-height: 1;
-}
+#meta-bar { padding-left: 44px; }
 
 #header-wrap {
   max-height: 0;
@@ -299,7 +301,7 @@ body {
   transition: max-height .3s ease;
 }
 
-#header-outer:hover #header-wrap { max-height: 200px; }
+#header-wrap.open { max-height: 200px; }
 
 #canvas { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
 svg { width: 100%; height: 100%; cursor: grab; }
@@ -308,8 +310,14 @@ svg:active { cursor: grabbing; }
 </head>
 <body>
 
+<button id="settings-btn" onclick="toggleSettings(event)" aria-label="Settings">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>
+</button>
+
 <div id="header-outer">
-  <div id="header-tab"></div>
   {META_BAR}
   <div id="header-wrap">
     <div id="toolbar">
@@ -751,6 +759,18 @@ function setAllStates(collapsed) {
 
 function expandAll()   { setAllStates(false); }
 function collapseAll() { setAllStates(true);  }
+
+function toggleSettings(e) {
+  e.stopPropagation();
+  const wrap = document.getElementById('header-wrap');
+  const btn  = document.getElementById('settings-btn');
+  const open = wrap.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+document.addEventListener('click', function() {
+  document.getElementById('header-wrap').classList.remove('open');
+  document.getElementById('settings-btn').classList.remove('open');
+});
 
 // ── Step sequencing (optional 'order' column) ───────────────────────────────
 // Exposes a minimal Reveal.js-compatible surface so this page can be driven
