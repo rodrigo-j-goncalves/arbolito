@@ -549,7 +549,15 @@ function fitToView(root, W, H, dur) {
   const bh = y1 - y0;
   if (bw <= 0 || bh <= 0) return;
 
-  const k  = Math.min((W - 2 * FIT_PAD) / bw, (H - 2 * FIT_PAD) / bh);
+  let nodeCount = 0;
+  root.each(() => nodeCount++);
+  let k;
+  if (nodeCount === 1) {
+    // Root only: show at 25% of viewport width
+    k = (0.25 * W) / nw(root.data.name, root.data.fontSize);
+  } else {
+    k = Math.min((W - 2 * FIT_PAD) / bw, (H - 2 * FIT_PAD) / bh);
+  }
   const tx = (W - k * (x0 + x1)) / 2;
   const ty = (H - k * (y0 + y1)) / 2;
 
