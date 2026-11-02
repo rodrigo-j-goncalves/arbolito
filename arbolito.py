@@ -456,19 +456,25 @@ function applyLayout(root, W, H) {
     root.each(d => { d.px = d.x; d.py = d.y; });
 
   } else {
-    // Horizontal: depth step = widest node + fixed gap, so links never go backwards
-    let maxNodeW = 0;
-    root.each(d => { maxNodeW = Math.max(maxNodeW, nw(d.data.name, d.data.fontSize)); });
-    const xStep = maxNodeW + 120;
+    // Horizontal: per-level xStep so wide root nodes don't stretch deeper levels
+    const levelW = {};
+    root.each(d => {
+      levelW[d.depth] = Math.max(levelW[d.depth] || 0, nw(d.data.name, d.data.fontSize));
+    });
+    const maxDepth = d3.max(root.descendants(), d => d.depth);
+    const xPos = [0];
+    for (let lv = 0; lv < maxDepth; lv++) {
+      xPos[lv + 1] = xPos[lv] + (levelW[lv] || 0) / 2 + (levelW[lv + 1] || 0) / 2 + 80;
+    }
     d3.tree()
-      .nodeSize([1, xStep])
+      .nodeSize([1, 1])
       .separation((a, b) => {
         const ha = nh(a.data.name, a.data.fontSize);
         const hb = nh(b.data.name, b.data.fontSize);
         return ha / 2 + hb / 2 + SIBLING_GAP;
       })
     (root);
-    root.each(d => { d.px = d.y; d.py = d.x; });
+    root.each(d => { d.px = xPos[d.depth]; d.py = d.x; });
   }
 }
 
