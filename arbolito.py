@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-arbolito  v1.4.0
+arbolito  v1.5.0
 Reads a CSV file and writes an interactive D3.js mind map HTML file.
 
 Usage:
@@ -180,6 +180,7 @@ TEMPLATE = r"""<!DOCTYPE html>
   --link-opacity: 0.55;
 }
 
+{BG_OVERRIDE}
 body {
   background: var(--bg);
   font-family: 'Atkinson Hyperlegible', sans-serif;
@@ -859,6 +860,9 @@ def main():
     parser.add_argument('--expand', choices=['all', 'none', 'file'], default='file',
                         help="Initial expand state: 'all' expanded, 'none' collapsed, "
                              "or 'file' to respect each row's collapsed column (default: file)")
+    parser.add_argument('--bg', default=None, metavar='COLOR',
+                        help="Override the canvas background color with any CSS value "
+                             "(e.g. '#1a1a2e', 'transparent'). Applies to both themes.")
     args = parser.parse_args()
 
     src = Path(args.input)
@@ -882,6 +886,9 @@ def main():
     html_class_attr = '' if args.theme == 'dark' else ' class="light"'
     theme_btn_label = '&#9728; Light' if args.theme == 'dark' else '&#9790; Dark'
 
+    bg_override = (f':root, :root.light {{ --bg: {args.bg}; }}\n'
+                   if args.bg else '')
+
     html = TEMPLATE.replace('{JSON_DATA}', json_str)
     html = html.replace('{META_BAR}', build_meta_bar(meta))
     html = html.replace('{TITLE}', html_escape(page_title))
@@ -890,6 +897,7 @@ def main():
     html = html.replace('{INIT_LAYOUT}', init_layout)
     html = html.replace('{INIT_DARK}', init_dark)
     html = html.replace('{INIT_EXPAND}', args.expand)
+    html = html.replace('{BG_OVERRIDE}', bg_override)
     dst.write_text(html, encoding='utf-8')
     print(f"HTML written: {dst}")
 
