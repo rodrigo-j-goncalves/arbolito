@@ -49,8 +49,9 @@ def csv_to_meta_and_tree(path: Path) -> tuple:
 
     # Re-parse from header row onwards as a DictReader
     import io
-    remaining = '\n'.join(','.join(r) for r in raw_rows[header_idx:])
-    reader = csv.DictReader(io.StringIO(remaining))
+    buf = io.StringIO()
+    csv.writer(buf).writerows(raw_rows[header_idx:])
+    reader = csv.DictReader(io.StringIO(buf.getvalue()))
     rows   = list(reader)
     headers = reader.fieldnames or []
 
