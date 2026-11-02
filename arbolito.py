@@ -244,11 +244,14 @@ body {
 .hint { margin-left: auto; font-size: 11px; color: var(--hint-color); }
 
 #meta-bar {
+  position: fixed;
+  bottom: 12px;
+  right: 16px;
+  z-index: 50;
   display: flex;
   align-items: center;
-  padding: 5px 16px;
-  background: var(--toolbar-bg);
-  border-bottom: 1px solid var(--toolbar-bdr);
+  padding: 4px 10px;
+  background: var(--bg);
   gap: 0;
   transition: background .3s, border-color .3s;
 }
@@ -293,8 +296,6 @@ body {
 }
 #settings-btn:hover, #settings-btn.open { opacity: 1; background: var(--btn-hover-bg); color: var(--btn-hover-c); }
 
-#meta-bar { padding-left: 44px; }
-
 #header-wrap {
   max-height: 0;
   overflow: hidden;
@@ -318,7 +319,6 @@ svg:active { cursor: grabbing; }
 </button>
 
 <div id="header-outer">
-  {META_BAR}
   <div id="header-wrap">
     <div id="toolbar">
       <span class="lbl">Layout</span>
@@ -336,6 +336,8 @@ svg:active { cursor: grabbing; }
     </div>
   </div>
 </div>
+
+{META_BAR}
 
 <div id="canvas"><svg id="svg"></svg></div>
 
