@@ -210,7 +210,7 @@ which results in this mindmap:
 | Drag | Pan the view (disables auto-fit) |
 | Scroll / pinch | Zoom in and out (disables auto-fit) |
 | Change layout | Resets auto-fit and re-fits to the new layout |
-| Hover top strip | Reveals the toolbar (layout, theme, expand/collapse buttons) |
+| Click the ⚙ gear icon (top-left) | Reveals the toolbar (layout, theme, expand/collapse buttons) |
 
 ---
 
@@ -239,9 +239,9 @@ python arbolito.py --bg transparent
         frameborder="0" style="background: transparent;"></iframe>
 ```
 
-#### Toolbar auto-hide
+#### Toolbar and META bar
 
-The toolbar (layout, theme, expand/collapse buttons) is hidden by default to keep the view clean during presentations. Hover over the thin strip at the top of the mind map to reveal it. The META information bar (title, author, etc.) is always visible.
+The toolbar (layout, theme, expand/collapse buttons) is hidden by default to keep the view clean during presentations. Click the ⚙ gear icon in the top-left corner to reveal it; click anywhere outside to close it. The META information bar (title, author, etc.) is always visible in the bottom-right corner of the mind map.
 
 
 ### Auto 'animate'
