@@ -479,6 +479,15 @@ function applyLayout(root, W, H) {
 }
 
 // ── Link path ────────────────────────────────────────────────────────────────
+function linkPointD(node) {
+  const sx = node.px, sy = node.py;
+  const sw = nw(node.data.name, node.data.fontSize);
+  const sh = nh(node.data.name, node.data.fontSize);
+  if (layout === 'radial') return `M${sx},${sy} Q${sx},${sy} ${sx},${sy}`;
+  if (layout === 'topdown') { const ey = sy + sh/2; return `M${sx},${ey} C${sx},${ey} ${sx},${ey} ${sx},${ey}`; }
+  const ex = sx + sw/2; return `M${ex},${sy} C${ex},${sy} ${ex},${sy} ${ex},${sy}`;
+}
+
 function linkPathD(s, t) {
   const sx = s.px, sy = s.py;
   const tx = t.px, ty = t.py;
@@ -587,7 +596,7 @@ function update(clickedPid) {
         .attr('fill','none')
         .attr('stroke', d => rgba(branchColor(d.target), linkOpacity()))
         .attr('stroke-width', 1.5)
-        .attr('d', () => linkPathD(fakeSrc, fakeSrc))
+        .attr('d', () => linkPointD(fakeSrc))
         .call(e => e.transition().duration(dur).ease(d3.easeCubicInOut)
           .attr('d', d => linkPathD(d.source, d.target))
         ),
@@ -595,7 +604,7 @@ function update(clickedPid) {
         .attr('d', d => linkPathD(d.source, d.target))
         .attr('stroke', d => rgba(branchColor(d.target), linkOpacity())),
       exit => exit.transition().duration(dur).ease(d3.easeCubicInOut)
-        .attr('d', () => linkPathD(fakeSrc, fakeSrc))
+        .attr('d', () => linkPointD(fakeSrc))
         .remove()
     );
 
